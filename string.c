@@ -1,10 +1,11 @@
-#define TXT 1024
-#define WORD 30
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#define TXT 1024
+#define WORD 30
 
-/////////////////////1////////////////////////
+
+//Assign memory 
 char* place(char ch[], int i , int j){
     char* str=(char*)malloc(TXT + 1);
     int g=0;
@@ -15,6 +16,7 @@ char* place(char ch[], int i , int j){
     return str;
 }
 
+//Find the sum of the word in gematria
 int culcSUM(char arr[], int len) {
     int sum= 0;
     for (int i=0; i < len; i++) {
@@ -28,18 +30,18 @@ int culcSUM(char arr[], int len) {
     return sum;
 }
 
-
+//Check if the sums in the gematria of the word and the word in the text match.
 void GematriaSequences(char *text, char *word){
     int x=0;
     for (int i = 0; i < strlen(text); i++){
         for (int j = 0; j < strlen(text); j++){
-            int temp1= culcSUM(word , strlen(word));
-            int temp2 = culcSUM(place(text, i ,j),strlen(place(text, i ,j)));
+            int temp1= culcSUM(word , strlen(word)); //sum of the word
+            int temp2 = culcSUM(place(text, i ,j),strlen(place(text, i ,j))); //sum of the word is the text
             if (temp1==temp2){ 
                 char ans[strlen(place(text, i ,j))];
                 strcpy(ans,place(text, i ,j));
-                if(((ans[0] <= 90 && ans[0] >= 65) || (ans[0] <= 122&& ans[0] >= 97))&& ((ans[strlen(ans)-1] <= 90 && ans[strlen(ans)-1] >= 65) ||
-                 (ans[strlen(ans)-1] <= 122&& ans[strlen(ans)-1] >= 97))){
+                if(((ans[0] <= 90 && ans[0] >= 65) || (ans[0] <= 122 && ans[0] >= 97)) && ((ans[strlen(ans)-1] <= 90 && ans[strlen(ans)-1] >= 65) ||
+                 (ans[strlen(ans)-1] <= 122 && ans[strlen(ans)-1] >= 97))){
                     x++;
                     if (x>1){
                         printf("~");
@@ -54,7 +56,7 @@ void GematriaSequences(char *text, char *word){
 }
 
 
-/////////////////////////2///////////////////////////////
+//Check if the word and the word in the text are similar
 int helpAtbash (char *w, char *t){
     if(strlen(w) != strlen(t)){
        return 0;
@@ -80,9 +82,9 @@ int helpAtbash (char *w, char *t){
 }
 
 
- 
- void AtbashSequences(char *text, char *word){
-   
+//Print all the minimal sequences in the text so that when ignoring blank characters,
+//they are identical to the word or vice versa in Astbsh writing.
+ void AtbashSequences(char *text, char *word){ 
     for(int i = 0; i < strlen(word); i++){
        if (word[i] >= 'a' && word[i] <= 'z'){
             word[i] = 'z'- word[i] + 'a';
@@ -93,6 +95,7 @@ int helpAtbash (char *w, char *t){
        }  
      }
 
+    //Check the opposite word
     char word_c[strlen(word)];
     strcpy(word_c,word);
     int end=strlen(word_c)-1;
@@ -103,7 +106,7 @@ int helpAtbash (char *w, char *t){
         word_c[end-i]=temp;
     }
      
-     int x=0;
+    int x=0;
     for (int i = 0; i < strlen(text)-1; i++){
         for (int j = 0; j < strlen(text)-1; j++){
             int temp1 = helpAtbash(place(text, i ,j), word);
@@ -113,7 +116,7 @@ int helpAtbash (char *w, char *t){
                 strcpy(ans,place(text, i ,j));
                 if((ans[strlen(ans)-1] != ' ') && (ans[0]!=' ')){
                     x++;
-                     if (x>1){
+                     if (x > 1){
                         printf("~");
                     }
                     int k = 0;
@@ -128,12 +131,13 @@ int helpAtbash (char *w, char *t){
     }
 }
 
-///////////////////////////3/////////////////////////////
+//helper bubble sort
 void swap(char *s1 ,char *s2){
     char temp= *s1;
     *s1  = *s2;
     *s2= temp;
 }
+
 
 int anagramHelp(char* t,char* w) {
     if(strlen(t)<strlen(w)){
@@ -181,6 +185,7 @@ int anagramHelp(char* t,char* w) {
     return 1;
 }
 
+//Print all the minimal sequences in the text that consist of the characters of the recorded word and only blank characters.
 void AnagramSequences(char *text, char *word){
     int x=0;
     for (int i = 0; i < strlen(text); i++){
@@ -204,7 +209,7 @@ void AnagramSequences(char *text, char *word){
     }
 }
 
-/////////////////////////////////////////////////////////
+
 int main(){
     char text[TXT];
     char word[WORD];   
