@@ -11,7 +11,7 @@ stringProg:  libStringProg.a
 libStringProg.a: string.o
 	$(AR) -rcs libStringProg.a string.o
 
-string.o: string.c 
+string.o: string.c string.h
 	$(CC) $(FLAGS) -c string.c
 
 .PHONY: clean all
